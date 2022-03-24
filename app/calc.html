@@ -1,0 +1,60 @@
+{extends file="../templates/main.html"}
+
+{block name = header}<p>KALKUALTOR </p> {/block}
+
+{block name=footer}Kalkulator obliczania rat{/block}
+
+{block name=content}
+
+<h3>Kalkulator obliczania rat kredytu ! </h2>
+
+
+<form class="pure-form pure-form-stacked" action="{$app_url}/app/calc.php" method="post">
+	<fieldset>
+		<label for="kw">Kwota kredytu</label>
+		<input id="kw" type="number" min="1000" max="100000 placeholder="wartość x" name="kw" value="{$def['x']}">
+	<br>
+		<label style="color: white;" for="rt">podaj ilość rat</label>
+		<input type="range" min="3" max="36" step="3" name="rt" value="{$def['y']}" oninput="this.nextElementSibling.value = this.value" >
+		<output style="color: white;">{$def['y']}</output>
+	<br><br>
+		<label for="op">oprocentowanie</label>
+		<input id="op" type="number" min="1.0" max="15.0" name="op" value="{$def['op']}">
+	</fieldset>
+	<button type="submit" class="pure-button pure-button-primary">Oblicz</button>
+</form>
+
+
+
+
+<div class="messages">
+
+{* wyświeltenie listy błędów, jeśli istnieją *}
+{if isset($messages)}
+	{if count($messages) > 0} 
+		<h4>Wystąpiły błędy: </h4>
+		<ol class="err">
+		{foreach  $messages as $msg}
+		{strip}
+			<li>{$msg}</li>
+		{/strip}
+		{/foreach}
+		</ol>
+	{/if}
+{/if}
+
+{* wyświeltenie listy informacji, jeśli istnieją *}
+
+{if isset($result)}
+	<h4>Wynik</h4>
+	<p class="res">
+	Miesięczna rata wynosi :  {$result} <br>
+	Prowizja wynosi  :  {$wynik['prowizja']} zł <br>
+	kwota do spłaty  :  {$wynik['kwotaend']}  zł
+	</p>
+
+{/if}
+
+</div>
+
+{/block}
